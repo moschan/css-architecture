@@ -7,7 +7,7 @@ This is my css architecture idea. This is frequently updated.
 
 # Categorize
 1. Base
-1. Component
+1. Module
 1. Unit
 	- layout
 	- pack
@@ -19,25 +19,25 @@ This is my css architecture idea. This is frequently updated.
 ## Base
 SMACSSのBaseにあたるものです。
 
-## Component
+## Module
 
 ページを構成するパーツのすべてです。
-再利用しやすいよう、親に依存せず、Component単独でスタイルを維持できるように設計します。
-Componentは自分自身の見た目のみを司り、位置関係に関しては、後述するUnitクラスがすべて受け持つようになります。
+再利用しやすいよう、親に依存せず、Module単独でスタイルを維持できるように設計します。
+Moduleは自分自身の見た目のみを司り、位置関係に関しては、後述するUnitクラスがすべて受け持つようになります。
 
 #### Naming convention
-- ComponentName
-- ComponentName--skinName_[n]
-- ComponentName-descendentName_[n]
+- ModuleName
+- ModuleName--skinName_[n]
+- ModuleName-descendentName_[n]
 
-Componentはskeletonとskinに分けて記述します。
+moduleはskeletonとskinに分けて記述します。
 
-`ComponentName`がスケルトンになり、そのComponentに形作るための必要最低限のスタイルを司り、
-`ComponentName--skinName`が、そのComponentのskin（modifier）のスタイル司っています。
-また、Componentを作るモジュール群に関しては、`ComponentName-descendentName`で記述します。
+`ModuleName`がスケルトンになり、そのModuleに形作るための必要最低限のスタイルを司り、
+`ModuleName--skinName`が、そのModuleのskin（modifier）のスタイル司っています。
+また、Moduleを作るモジュール群に関しては、`ModuleName-descendentName`で記述します。
 
-Componentの子要素にはすべてクラス名でスタイル当てていきます。(構造とスタイルの分離のため)
-親コンポーネントによって、子コンポーネントの形が変わる場合には親コンポーネントと同じskinNameを付与し対応します。
+Moduleの子要素にはすべてクラス名でスタイル当てていきます。(構造とスタイルの分離のため)
+親Moduleによって、子Moduleの形が変わる場合には親Moduleと同じskinNameを付与し対応します。
 
 例を示します。
 
@@ -55,27 +55,27 @@ Componentの子要素にはすべてクラス名でスタイル当てていき�
 </div>
 ```
 
-セマンティックに名前を付けられない場合、またはパターンがあるものに関しては、コンポーネント名(または、skinName,descendentName)の最後に`_[value]`を追加し対応します。
+セマンティックに名前を付けられない場合、またはパターンがあるものに関しては、Module名(または、skinName,descendentName)の最後に`_[value]`を追加し対応します。
 
 ```html
 <a href="#" class="TextLink TextLink_1"></a>
 ```
 
 
-## Unit
+## Component
 
-Unitにはページで一つだけしか使えないLayoutクラスと、汎用的に使えるPackクラスが存在します。
+Componentにはページで一つだけしか使えないLayoutクラスと、汎用的に使えるPackクラスが存在します。
 
 先述したように、
-Componentは、そのComponentがどのような見た目をしているかだけを司り、
-そして、その親のUnitが、そのComponent(またはComponent群)が、どのような位置関係にあるかを司ります。
+moduleは、そのmoduleがどのような見た目をしているかだけを司り、
+そして、その親のComponentが、そのmodule(またはmodule群)が、どのような位置関係にあるかを司ります。
 
-これによって、Componentがどの位置にあるかについては全く関与しないで、自分自身の見た目だけを司ることができます。
+これによって、moduleがどの位置にあるかについては全く関与しないで、自分自身の見た目だけを司ることができます。
 
 
 #### Layout
-ページに唯一のUnitとしてはプリフィックスとしてl-をつけます(Layout)
-LayoutはSMACSSでいうThemeの役割も担っており、ページごとにオリジナルなComponentにしたい場合のフックに利用します。
+ページに唯一のComponentとしてはプリフィックスとしてl-をつけます(Layout)
+LayoutはSMACSSでいうThemeの役割も担っており、ページごとにオリジナルなmoduleにしたい場合のフックに利用します。
 
 
 ```css
@@ -86,7 +86,7 @@ LayoutはSMACSSでいうThemeの役割も担っており、ページごとにオ
 
 
 #### Pack
-汎用的に使えるUnitとしてプリフィックスとしてp-をつけます(Pack)
+汎用的に使えるComponentとしてプリフィックスとしてp-をつけます(Pack)
 
 ```css
 .p-container {}
